@@ -83,6 +83,32 @@ import { sendEvent } from 'fivem-ui-core';
 await sendEvent('playerReady', { name: 'John' });
 ```
 
+### createNuiClient – timeouty, retry, JSON
+Jeśli potrzebujesz większej niezawodności, użyj klienta z wbudowanymi timeoutami, retry (exponential backoff) i loggerem.
+
+```ts
+import { createNuiClient } from 'fivem-ui-core';
+
+const client = createNuiClient({
+  timeoutMs: 5000,     // domyślnie 5000
+  retries: 2,          // domyślnie 2 próby
+  backoffMs: 300,      // domyślnie 300ms, rośnie wykładniczo per próba
+  logger: (level, message, meta) => console[level]?.('[nui]', message, meta)
+});
+
+// surowy Response
+const res = await client.send('inventory:save', { items: [] });
+if (!res.ok) throw new Error('Błąd zapisu');
+
+// automatyczny parse JSON
+const data = await client.sendJson('player:getProfile', { id: 123 });
+```
+
+Najlepsze praktyki:
+- Unikaj spamu eventów: batchuj aktualizacje, używaj debouncingu/throttlingu.
+- Dla akcji krytycznych używaj `sendJson` z walidacją odpowiedzi.
+- W UI pokazuj stan „w toku”, a przy błędzie – spróbuj ponownie lub zaproponuj retry.
+
 Po stronie Lua (client.lua):
 
 ```lua
