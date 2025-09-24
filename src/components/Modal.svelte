@@ -7,10 +7,16 @@
 			open = false;
 		}
 	}
+
+function onKeydown(e: KeyboardEvent) {
+	if (e.key === 'Escape') {
+		open = false;
+	}
+}
 </script>
 
-{#if open}
-	<div class="ui-modal-backdrop" data-backdrop="1" role="presentation" on:click={onBackdropClick}>
+	{#if open}
+	<div class="ui-modal-backdrop" data-backdrop="1" role="presentation" on:click={onBackdropClick} on:keydown={onKeydown} tabindex="-1">
 		<div class="ui-modal" role="dialog" aria-modal="true" aria-label={title}>
 			{#if title}
 				<header class="ui-modal__header">{title}</header>
@@ -19,7 +25,7 @@
 			<footer class="ui-modal__actions"><slot name="actions" /></footer>
 		</div>
 	</div>
-{/if}
+	{/if}
 
 <style>
 	.ui-modal-backdrop {

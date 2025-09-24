@@ -59,11 +59,15 @@ export function offEvent<T = unknown>(eventName: string, callback: EventCallback
 	if (set.size === 0) eventNameToCallbacks.delete(eventName);
 }
 
-export async function sendEvent<T = unknown>(eventName: string, data?: T): Promise<Response | void> {
+export async function sendEvent<T = unknown>(eventName: string, data?: T): Promise<Response> {
 	const resource = getResourceName();
 	if (!isFiveMEnvironment()) {
 		console.debug('[fivem-ui/core] sendEvent (dev):', { eventName, data });
-		return;
+		// Zwróć sztuczną odpowiedź w trybie dev, aby API było spójne
+		return new Response(JSON.stringify({ ok: true, dev: true }), {
+			status: 200,
+			headers: { 'Content-Type': 'application/json; charset=UTF-8' }
+		});
 	}
 	const endpoint = `https://${resource}/${eventName}`;
 	return fetch(endpoint, {

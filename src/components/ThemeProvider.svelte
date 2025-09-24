@@ -3,8 +3,7 @@
 	import { defaultTheme, themeToCssVars } from '../theme';
 
 	export let theme: Theme = defaultTheme;
-
-	const vars = themeToCssVars(theme);
+$: vars = themeToCssVars(theme);
 </script>
 
 <div style={Object.entries(vars).map(([k,v]) => `${k}: ${v}`).join('; ')}>

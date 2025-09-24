@@ -1,6 +1,6 @@
 {
-  "name": "@fivem-ui/core",
-  "version": "0.1.0",
+  "name": "fivem-ui-core",
+  "version": "1.0.0",
   "private": false,
   "type": "module",
   "license": "MIT",
@@ -8,17 +8,23 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "peerDependencies": {
     "svelte": "^4.2.0 || ^5.0.0"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^3.1.2",
+    "@testing-library/svelte": "^5.2.8",
+    "@types/node": "^22.18.6",
+    "jsdom": "^27.0.0",
     "svelte": "^4.2.18",
     "typescript": "^5.6.2",
     "vite": "^5.4.8",
-    "vite-plugin-dts": "^3.9.1"
+    "vite-plugin-dts": "^3.9.1",
+    "vitest": "^2.1.9"
   },
   "files": [
     "dist",
@@ -27,5 +33,19 @@
   "main": "./dist/fivem-ui-core.cjs.js",
   "module": "./dist/fivem-ui-core.es.js",
   "svelte": "./dist/fivem-ui-core.es.js",
-  "types": "./dist/index.d.ts"
+  "types": "./dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/B14ck3D/svelte-core-fivem.git"
+  },
+  "keywords": [
+    "fivem",
+    "svelte",
+    "integration"
+  ],
+  "author": "Bl4ck3d",
+  "bugs": {
+    "url": "https://github.com/B14ck3D/svelte-core-fivem/issues"
+  },
+  "homepage": "https://github.com/B14ck3D/svelte-core-fivem#readme"
 }

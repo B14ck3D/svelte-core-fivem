@@ -13,7 +13,7 @@ Przyjazny core UI dla FiveM w Svelte. Dostajesz wspólne API do komunikacji NUI 
 ## Instalacja
 
 ```bash
-npm install fivem-ui-core
+npm i fivem-ui-core
 ```
 
 - Wymaga Svelte (^4 lub ^5) jako peer dependency.
@@ -149,6 +149,25 @@ Minimalny przykład:
 </ThemeProvider>
 ```
 
+### Presety motywów i palety serwerowe
+- Dostępne są gotowe presety: `presetLight`, `presetDark` oraz przykładowe `serverPalettes` (red/blue/purple).
+
+```ts
+import { presetLight, presetDark, serverPalettes } from '@fivem-ui/core';
+
+// Light
+const themeLight = presetLight;
+
+// Dark z podmienioną paletą primary na serwerową "purple"
+const themeDarkPurple = {
+  ...presetDark,
+  colors: {
+    ...presetDark.colors,
+    primary: serverPalettes.purple.primary
+  }
+};
+```
+
 ---
 
 ## Komponenty (przegląd)
@@ -220,18 +239,106 @@ Minimalny przykład:
 />
 ```
 
+### List
+- **Props**: `items: { id; label; description? }[]`, `selectedId?`, `onSelect?`
+
+```svelte
+<script>
+  import { List } from '@fivem-ui/core';
+  let selected = null;
+</script>
+
+<List items={[{ id: 1, label: 'Opcja A' }, { id: 2, label: 'Opcja B', description: 'Opis' }]} onSelect={(id) => selected = id} />
+```
+
+### TextInput
+- **Props**: `value`, `placeholder?`, `label?`, `type = 'text'|'password'|'number'`, `disabled?`, `name?`, `id?`, `onEnter?`
+
+```svelte
+<script>
+  import { TextInput } from '@fivem-ui/core';
+  let nick = '';
+  function handleEnter(v) { console.log('Enter:', v); }
+</script>
+
+<TextInput bind:value={nick} label="Nick" placeholder="Wpisz nick" onEnter={handleEnter} />
+```
+
+### ContextMenu
+- **Props**: `open`, `x`, `y`, `items: { id; label; disabled? }[]`
+- **Zdarzenia**: `on:select={(e) => e.detail /* id */}`
+
+```svelte
+<script>
+  import { ContextMenu } from '@fivem-ui/core';
+  let menu = { open: true, x: 300, y: 200 };
+  const items = [{ id: 'copy', label: 'Kopiuj' }, { id: 'del', label: 'Usuń', disabled: true }];
+</script>
+
+<ContextMenu {items} open={menu.open} x={menu.x} y={menu.y} on:select={(e) => console.log('Wybrano:', e.detail)} />
+```
+
+### Snackbar (kolejka toastów)
+- **Użycie**: komponent `Snackbar` + store `toasts` oraz helpery `push/remove/clear`
+
+```svelte
+<script>
+  import { Snackbar, push } from '@fivem-ui/core';
+  function show() { push('Operacja zakończona', { type: 'success', timeout: 2000 }); }
+</script>
+
+<button on:click={show}>Pokaż toast</button>
+<Snackbar position="top-right" />
+```
+
+---
+
+## Adaptery (ESX i QB)
+- Dla wygody nazw i kompatybilności dodane zostały adaptery `esx` i `qb`, które prefixują zdarzenia/akcje (np. `esx:notify`, `qb:ready`).
+
+```ts
+import { esx, qb } from '@fivem-ui/core';
+
+// Nasłuch zdarzenia z Lua (SendNUIMessage action = 'esx:notify')
+const off = esx.on('notify', (data) => {
+  console.log('ESX notify:', data);
+});
+
+// Wysłanie odpowiedzi do Lua (RegisterNUICallback 'qb:ready')
+await qb.send('ready', { ok: true });
+
+off();
+```
+
 ---
 
 ## Tryb dev vs. FiveM
 - W FiveM UI → Lua używa `GetParentResourceName()` i POST do `https://<resource>/<event>`.
-- W trybie dev (przeglądarka poza FiveM) `sendEvent` nic nie wysyła – tylko loguje do konsoli, abyś mógł normalnie rozwijać UI bez błędów sieciowych.
+- W trybie dev (przeglądarka poza FiveM) `sendEvent` nie wysyła żądań – loguje dane i zwraca sztuczną odpowiedź `Response { ok: true }`, abyś mógł normalnie rozwijać UI bez błędów sieciowych.
+
+---
+
+## Testy (Vitest + Testing Library)
+- Środowisko: `jsdom`, kompilacja Svelte przez wtyczkę Vite.
+
+Skrypty:
+
+```bash
+npm test         # jednorazowo
+npm run test:watch
+```
+
+Przykłady zakresu testów:
+- NUI (onEvent/onceEvent/offEvent/sendEvent)
+- Theme (themeToCssVars, presety)
+- Komponenty (List, TextInput, Snackbar)
 
 ---
 
 ## Roadmap / pomysły
-- Adaptery: `@fivem-ui/esx`, `@fivem-ui/qb` (helpery pod konkretne ekosystemy)
-- Więcej komponentów: listy, inputy, menu kontekstowe, snackbar/queue toasts
-- Presety theme’ów: jasny/ciemny + przykładowe serwerowe palety
+- Integracje: dodatkowe helpery pod inventory/telefon/komendy
+- Więcej komponentów: menu panelowe, tabele, tooltipy, dropdowny, przyciski/icon-buttony
+- Accessibility: pełniejsze wsparcie klawiatury i ARIA
 
 Jeśli chcesz coś dodać – PR/issue mile widziane.
 
@@ -242,4 +349,3 @@ MIT
 
 ### Autor
 Bl4ck3d :) 
-

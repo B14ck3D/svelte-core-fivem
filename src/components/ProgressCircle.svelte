@@ -1,15 +1,15 @@
 <script lang="ts">
-	export let value: number = 0;
-	export let max: number = 100;
-	export let size: number = 48;
-	export let stroke: number = 6;
-	export let color: string | null = null;
+export let value: number = 0;
+export let max: number = 100;
+export let size: number = 48;
+export let stroke: number = 6;
+export let color: string | null = null;
 
-	const radius = (size - stroke) / 2;
-	const circumference = 2 * Math.PI * radius;
-	const pct = Math.max(0, Math.min(1, value / (max || 1)));
-	const dash = circumference * pct;
-	const gap = circumference - dash;
+$: radius = (size - stroke) / 2;
+$: circumference = 2 * Math.PI * radius;
+$: pct = Math.max(0, Math.min(1, value / (max || 1)));
+$: dash = circumference * pct;
+$: gap = circumference - dash;
 </script>
 
 <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} class="ui-progress-circle">
