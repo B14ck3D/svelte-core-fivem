@@ -13,7 +13,7 @@ Przyjazny core UI dla FiveM w Svelte. Dostajesz wspólne API do komunikacji NUI 
 ## Instalacja
 
 ```bash
-npm install @fivem-ui/core
+npm install fivem-ui-core
 ```
 
 - Wymaga Svelte (^4 lub ^5) jako peer dependency.
@@ -242,3 +242,4 @@ MIT
 
 ### Autor
 Bl4ck3d :) 
+
