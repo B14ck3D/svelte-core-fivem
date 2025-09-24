@@ -16,7 +16,7 @@ Przyjazny core UI dla FiveM w Svelte. Dostajesz wspólne API do komunikacji NUI 
 npm i fivem-ui-core
 ```
 
-- Wymaga Svelte (^4 lub ^5) jako peer dependency.
+- Wymaga Svelte ^5 jako peer dependency.
 - Budujesz swoją aplikację (HUD, telefon, inventory) w Svelte i po prostu importujesz komponenty oraz API z `fivem-ui-core`.
 
 ---
