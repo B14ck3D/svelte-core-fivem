@@ -1,4 +1,4 @@
-## @fivem-ui/core
+## fivem-ui-core
 
 Przyjazny core UI dla FiveM w Svelte. Dostajesz wspólne API do komunikacji NUI (UI ↔ Lua), prosty system motywów (theme) oraz gotowe komponenty, z których korzysta większość serwerów (Notification, Modal, ProgressBar, StatusBar, Hotbar, RadialMenu).
 
@@ -17,7 +17,7 @@ npm i fivem-ui-core
 ```
 
 - Wymaga Svelte (^4 lub ^5) jako peer dependency.
-- Budujesz swoją aplikację (HUD, telefon, inventory) w Svelte i po prostu importujesz komponenty oraz API z `@fivem-ui/core`.
+- Budujesz swoją aplikację (HUD, telefon, inventory) w Svelte i po prostu importujesz komponenty oraz API z `fivem-ui-core`.
 
 ---
 
@@ -27,7 +27,7 @@ npm i fivem-ui-core
 
 ```svelte
 <script>
-  import { ThemeProvider, Notification, ProgressBar } from '@fivem-ui/core';
+  import { ThemeProvider, Notification, ProgressBar } from 'fivem-ui-core';
   let hp = 75;
 
   const theme = {
@@ -54,7 +54,7 @@ npm i fivem-ui-core
 2) Odbierz zdarzenie z Lua i pokaż notyfikację:
 
 ```ts
-import { onEvent } from '@fivem-ui/core';
+import { onEvent } from 'fivem-ui-core';
 
 onEvent('showNotify', (data) => {
   // { type: 'info' | 'success' | 'warning' | 'error', message: string }
@@ -65,7 +65,7 @@ onEvent('showNotify', (data) => {
 3) Wyślij callback z UI do Lua:
 
 ```ts
-import { sendEvent } from '@fivem-ui/core';
+import { sendEvent } from 'fivem-ui-core';
 await sendEvent('callbackDone', { ok: true });
 ```
 
@@ -78,7 +78,7 @@ await sendEvent('callbackDone', { ok: true });
 - Działa w FiveM. W trybie dev (poza FiveM) loguje do konsoli (no-op), aby nie blokować pracy.
 
 ```ts
-import { sendEvent } from '@fivem-ui/core';
+import { sendEvent } from 'fivem-ui-core';
 
 await sendEvent('playerReady', { name: 'John' });
 ```
@@ -105,7 +105,7 @@ SendNUIMessage({
 ```
 
 ```ts
-import { onEvent } from '@fivem-ui/core';
+import { onEvent } from 'fivem-ui-core';
 
 onEvent('showNotify', (data) => {
   // zrób np. toast ze stylowaniem wg type
@@ -132,7 +132,7 @@ Minimalny przykład:
 
 ```svelte
 <script>
-  import { ThemeProvider, defaultTheme } from '@fivem-ui/core';
+  import { ThemeProvider, defaultTheme } from 'fivem-ui-core';
   // możesz skopiować defaultTheme i zmienić tylko wybrane pola
   const theme = {
     ...defaultTheme,
@@ -153,7 +153,7 @@ Minimalny przykład:
 - Dostępne są gotowe presety: `presetLight`, `presetDark` oraz przykładowe `serverPalettes` (red/blue/purple).
 
 ```ts
-import { presetLight, presetDark, serverPalettes } from '@fivem-ui/core';
+import { presetLight, presetDark, serverPalettes } from 'fivem-ui-core';
 
 // Light
 const themeLight = presetLight;
@@ -244,7 +244,7 @@ const themeDarkPurple = {
 
 ```svelte
 <script>
-  import { List } from '@fivem-ui/core';
+  import { List } from 'fivem-ui-core';
   let selected = null;
 </script>
 
@@ -256,7 +256,7 @@ const themeDarkPurple = {
 
 ```svelte
 <script>
-  import { TextInput } from '@fivem-ui/core';
+  import { TextInput } from 'fivem-ui-core';
   let nick = '';
   function handleEnter(v) { console.log('Enter:', v); }
 </script>
@@ -270,7 +270,7 @@ const themeDarkPurple = {
 
 ```svelte
 <script>
-  import { ContextMenu } from '@fivem-ui/core';
+  import { ContextMenu } from 'fivem-ui-core';
   let menu = { open: true, x: 300, y: 200 };
   const items = [{ id: 'copy', label: 'Kopiuj' }, { id: 'del', label: 'Usuń', disabled: true }];
 </script>
@@ -283,7 +283,7 @@ const themeDarkPurple = {
 
 ```svelte
 <script>
-  import { Snackbar, push } from '@fivem-ui/core';
+  import { Snackbar, push } from 'fivem-ui-core';
   function show() { push('Operacja zakończona', { type: 'success', timeout: 2000 }); }
 </script>
 
@@ -297,7 +297,7 @@ const themeDarkPurple = {
 - Dla wygody nazw i kompatybilności dodane zostały adaptery `esx` i `qb`, które prefixują zdarzenia/akcje (np. `esx:notify`, `qb:ready`).
 
 ```ts
-import { esx, qb } from '@fivem-ui/core';
+import { esx, qb } from 'fivem-ui-core';
 
 // Nasłuch zdarzenia z Lua (SendNUIMessage action = 'esx:notify')
 const off = esx.on('notify', (data) => {
