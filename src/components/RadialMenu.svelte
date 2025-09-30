@@ -1,10 +1,14 @@
 <script lang="ts">
-	export type RadialItem = { id: string; label: string };
+	type RadialItem = { id: string; label: string };
 	export let open: boolean = false;
 	export let items: RadialItem[] = [];
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher<{ select: string }>();
 
+	// Geometry notes:
+	// Each item is placed evenly on a circle. For item index i in N items,
+	// angle = (i / N) * 360deg. We rotate to angle, translate by radius,
+	// then rotate back to keep the label upright.
 	const radius = 96;
 </script>
 

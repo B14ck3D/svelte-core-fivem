@@ -1,5 +1,5 @@
 <script lang="ts">
-	export type HotbarItem = { slot: number; label?: string; icon?: string };
+	type HotbarItem = { slot: number; label?: string; icon?: string };
 	export let items: HotbarItem[] = [];
 	export let selected: number | null = null;
 </script>
